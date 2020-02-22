@@ -31,7 +31,7 @@ func Init(dbPath string) error {
 func CreateTask(task string) (int, error) {
 	var id int
 	err := db.Update(func(tx *bolt.Tx) error {
-		b := tx.Bucket(taskBukcet)
+		b := tx.Bucket(taskBucket)
 		id64, _ := b.NextSequence()
 		id = int(id64)
 		key := itob(id)
@@ -45,7 +45,7 @@ func CreateTask(task string) (int, error) {
 
 func AllTasks() ([]Task, error) {
 	var tasks []Task
-	err := db.View(func(tx *tx.Bolt) error {
+	err := db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(taskBucket)
 		c := b.Cursor()
 
